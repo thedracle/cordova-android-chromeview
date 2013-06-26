@@ -27,6 +27,12 @@ import org.apache.cordova.api.LOG;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import us.costan.chrome.ChromeHttpAuthHandler;
+import us.costan.chrome.ChromeSslErrorHandler;
+import us.costan.chrome.ChromeView;
+import us.costan.chrome.ChromeViewClient;
+import us.costan.chrome.ChromeWebClient;
+
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -46,7 +52,7 @@ import android.webkit.WebViewClient;
 /**
  * This class is the WebViewClient that implements callbacks for our web view.
  */
-public class CordovaWebViewClient extends WebViewClient {
+public class CordovaWebViewClient extends ChromeViewClient {
 
 	private static final String TAG = "Cordova";
 	private static final String CORDOVA_EXEC_URL_PREFIX = "http://cdv_exec/";
@@ -114,7 +120,7 @@ public class CordovaWebViewClient extends WebViewClient {
      * @return              true to override, false for default behavior
      */
 	@Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    public boolean shouldOverrideUrlLoading(ChromeView view, String url) {
     	// Check if it's an exec() bridge command message.
     	if (NativeToJsMessageQueue.ENABLE_LOCATION_CHANGE_EXEC_MODE && url.startsWith(CORDOVA_EXEC_URL_PREFIX)) {
     		handleExecUrl(url);
@@ -233,7 +239,7 @@ public class CordovaWebViewClient extends WebViewClient {
      * @param realm
      */
     @Override
-    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+    public void onReceivedHttpAuthRequest(ChromeView view, ChromeHttpAuthHandler handler, String host, String realm) {
 
         // Get the authentication token
         AuthenticationToken token = this.getAuthenticationToken(host, realm);
@@ -256,7 +262,7 @@ public class CordovaWebViewClient extends WebViewClient {
      * @param url           The url of the page.
      */
     @Override
-    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+    public void onPageStarted(ChromeView view, String url, Bitmap favicon) {
 
         // Flush stale messages.
         this.appView.jsMessageQueue.reset();
@@ -279,7 +285,7 @@ public class CordovaWebViewClient extends WebViewClient {
      * @param url           The url of the page.
      */
     @Override
-    public void onPageFinished(WebView view, String url) {
+    public void onPageFinished(ChromeView view, String url) {
         super.onPageFinished(view, url);
         LOG.d(TAG, "onPageFinished(" + url + ")");
 
@@ -334,7 +340,7 @@ public class CordovaWebViewClient extends WebViewClient {
      * @param failingUrl    The url that failed to load.
      */
     @Override
-    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+    public void onReceivedError(ChromeView view, int errorCode, String description, String failingUrl) {
         LOG.d(TAG, "CordovaWebViewClient.onReceivedError: Error code=%s Description=%s URL=%s", errorCode, description, failingUrl);
 
         // Clear timeout flag
@@ -364,7 +370,7 @@ public class CordovaWebViewClient extends WebViewClient {
      */
     @TargetApi(8)
     @Override
-    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+    public void onReceivedSslError(ChromeView view, ChromeSslErrorHandler handler, SslError error) {
 
         final String packageName = this.cordova.getActivity().getPackageName();
         final PackageManager pm = this.cordova.getActivity().getPackageManager();

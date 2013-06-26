@@ -25,15 +25,14 @@ import java.io.InputStream;
 import org.apache.cordova.api.CordovaInterface;
 import org.apache.cordova.api.LOG;
 
+import us.costan.chrome.ChromeView;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class IceCreamCordovaWebViewClient extends CordovaWebViewClient {
-
-
+	
     public IceCreamCordovaWebViewClient(CordovaInterface cordova) {
         super(cordova);
     }
@@ -43,7 +42,7 @@ public class IceCreamCordovaWebViewClient extends CordovaWebViewClient {
     }
 
     @Override
-    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+    public WebResourceResponse shouldInterceptRequest(ChromeView view, String url) {
         //Check if plugins intercept the request
         WebResourceResponse ret = super.shouldInterceptRequest(view, url);
         

@@ -18,11 +18,15 @@
 */
 package org.apache.cordova.test.actions;
 
-import android.os.Bundle;
-import android.webkit.WebView;
-
-import org.apache.cordova.*;
+import org.apache.cordova.CordovaChromeClient;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaWebViewClient;
+import org.apache.cordova.DroidGap;
 import org.apache.cordova.api.LOG;
+
+import us.costan.chrome.ChromeView;
+
+import android.os.Bundle;
 
 public class whitelist extends DroidGap {
     @Override
@@ -42,7 +46,7 @@ public class whitelist extends DroidGap {
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(ChromeView view, String url) {
             LOG.d("whitelist", "shouldOverrideUrlLoading(" + url + ")");
             LOG.d("whitelist", "originalUrl=" + view.getOriginalUrl());
             return super.shouldOverrideUrlLoading(view, url);

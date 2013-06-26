@@ -19,25 +19,6 @@
 
 package org.apache.cordova;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.webkit.WebView;
-
-import org.apache.cordova.api.CordovaInterface;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,6 +31,25 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.cordova.api.CordovaInterface;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import us.costan.chrome.ChromeView;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
+import android.util.Log;
 //import android.app.Activity;
 //import android.content.Context;
 
@@ -124,7 +124,7 @@ public class ContactAccessorSdk5 extends ContactAccessor {
     /**
      * Create an contact accessor.
      */
-    public ContactAccessorSdk5(WebView view, CordovaInterface context) {
+    public ContactAccessorSdk5(ChromeView view, CordovaInterface context) {
         mApp = context;
         mView = view;
     }

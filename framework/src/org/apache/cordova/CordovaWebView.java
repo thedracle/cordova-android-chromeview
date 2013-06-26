@@ -32,6 +32,10 @@ import org.apache.cordova.api.LOG;
 import org.apache.cordova.api.PluginManager;
 import org.apache.cordova.api.PluginResult;
 
+import us.costan.chrome.ChromeSettings;
+import us.costan.chrome.ChromeView;
+import us.costan.chrome.ChromeWebClient;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
@@ -53,11 +57,11 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
+//import android.webkit.WebView;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.FrameLayout;
 
-public class CordovaWebView extends WebView {
+public class CordovaWebView extends ChromeView {
 
     public static final String TAG = "CordovaWebView";
 
@@ -167,7 +171,8 @@ public class CordovaWebView extends WebView {
      *
      */
     public CordovaWebView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        super(context,attrs);
+    	//super(context, attrs, defStyle);
         if (CordovaInterface.class.isInstance(context))
         {
             this.cordova = (CordovaInterface) context;
@@ -191,7 +196,8 @@ public class CordovaWebView extends WebView {
      */
     @TargetApi(11)
     public CordovaWebView(Context context, AttributeSet attrs, int defStyle, boolean privateBrowsing) {
-        super(context, attrs, defStyle, privateBrowsing);
+        super(context,attrs);
+    	//super(context, attrs, defStyle, privateBrowsing);
         if (CordovaInterface.class.isInstance(context))
         {
             this.cordova = (CordovaInterface) context;
@@ -230,7 +236,7 @@ public class CordovaWebView extends WebView {
         this.requestFocusFromTouch();
 
         // Enable JavaScript
-        WebSettings settings = this.getSettings();
+        ChromeSettings settings = this.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
@@ -264,6 +270,7 @@ public class CordovaWebView extends WebView {
         // while we do this
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
             Level16Apis.enableUniversalAccess(settings);
+        
         // Enable database
         // We keep this disabled because we use or shim to get around DOM_EXCEPTION_ERROR_16
         String databasePath = this.cordova.getActivity().getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
@@ -336,7 +343,7 @@ public class CordovaWebView extends WebView {
      */
     public void setWebViewClient(CordovaWebViewClient client) {
         this.viewClient = client;
-        super.setWebViewClient(client);
+        super.setChromeViewClient(client);
     }
 
     /**
@@ -346,7 +353,8 @@ public class CordovaWebView extends WebView {
      */
     public void setWebChromeClient(CordovaChromeClient client) {
         this.chromeClient = client;
-        super.setWebChromeClient(client);
+        super.setChromeWebClient(client);
+        //super.setWebChromeClient(client);
     }
     
     public CordovaChromeClient getWebChromeClient() {
@@ -846,12 +854,13 @@ public class CordovaWebView extends WebView {
     // VFY: unable to resolve virtual method 285: Landroid/webkit/WebSettings;.setAllowUniversalAccessFromFileURLs
     @TargetApi(16)
     private static class Level16Apis {
-        static void enableUniversalAccess(WebSettings settings) {
+        static void enableUniversalAccess(ChromeSettings settings) {
             settings.setAllowUniversalAccessFromFileURLs(true);
         }
     }
     
     public void printBackForwardList() {
+    	/*
         WebBackForwardList currentList = this.copyBackForwardList();
         int currentSize = currentList.getSize();
         for(int i = 0; i < currentSize; ++i)
@@ -860,13 +869,15 @@ public class CordovaWebView extends WebView {
             String url = item.getUrl();
             LOG.d(TAG, "The URL at index: " + Integer.toString(i) + "is " + url );
         }
+        */
     }
     
     
     //Can Go Back is BROKEN!
     public boolean startOfHistory()
     {
-        WebBackForwardList currentList = this.copyBackForwardList();
+    	/*
+        WebBackForwardList currentList = this.copyBackForwardList(); this.
         WebHistoryItem item = currentList.getItemAtIndex(0);
         if( item!=null){	// Null-fence in case they haven't called loadUrl yet (CB-2458)
 	        String url = item.getUrl();
@@ -874,7 +885,7 @@ public class CordovaWebView extends WebView {
 	        LOG.d(TAG, "The current URL is: " + currentUrl);
 	        LOG.d(TAG, "The URL at item 0 is:" + url);
 	        return currentUrl.equals(url);
-        }
+        }*/
         return false;
     }
 
@@ -931,15 +942,6 @@ public class CordovaWebView extends WebView {
         return mCustomView != null;
     }
     
-    public WebBackForwardList restoreState(Bundle savedInstanceState)
-    {
-        WebBackForwardList myList = super.restoreState(savedInstanceState);
-        Log.d(TAG, "WebView restoration crew now restoring!");
-        //Initialize the plugin manager once more
-        this.pluginManager.init();
-        return myList;
-    }
-
     public void storeResult(int requestCode, int resultCode, Intent intent) {
         mResult = new ActivityResult(requestCode, resultCode, intent);
     }

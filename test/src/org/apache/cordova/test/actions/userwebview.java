@@ -18,12 +18,21 @@
 */
 package org.apache.cordova.test.actions;
 
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.GeolocationPermissions.Callback;
-
-import org.apache.cordova.*;
+import org.apache.cordova.CordovaChromeClient;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaWebViewClient;
+import org.apache.cordova.DroidGap;
 import org.apache.cordova.api.LOG;
+
+import us.costan.chrome.ChromeView;
+import us.costan.chrome.ChromeViewClient;
+import android.os.Bundle;
+import android.webkit.GeolocationPermissions.Callback;
+import org.apache.cordova.api.LOG;
+
+import us.costan.chrome.ChromeView;
+import android.os.Bundle;
+import android.webkit.GeolocationPermissions.Callback;
 
 public class userwebview extends DroidGap {
     
@@ -63,13 +72,13 @@ public class userwebview extends DroidGap {
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(ChromeView view, String url) {
             LOG.d("userwebview", "shouldOverrideUrlLoading(" + url + ")");
             return super.shouldOverrideUrlLoading(view, url);
         }
 
         @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        public void onReceivedError(ChromeView view, int errorCode, String description, String failingUrl) {
             LOG.d("userwebview", "onReceivedError: Error code=" + errorCode + " Description=" + description + " URL=" + failingUrl);
             super.onReceivedError(view, errorCode, description, failingUrl);
         }

@@ -23,6 +23,9 @@ import org.apache.cordova.api.LOG;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import us.costan.chrome.ChromeJsResult;
+import us.costan.chrome.ChromeView;
+import us.costan.chrome.ChromeWebClient;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,13 +36,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.ConsoleMessage;
+import android.webkit.GeolocationPermissions.Callback;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
-import android.webkit.GeolocationPermissions.Callback;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -48,7 +51,7 @@ import android.widget.RelativeLayout;
 /**
  * This class is the WebChromeClient that implements callbacks for our web view.
  */
-public class CordovaChromeClient extends WebChromeClient {
+public class CordovaChromeClient extends ChromeWebClient {
 
     public static final int FILECHOOSER_RESULTCODE = 5173;
     private static final String LOG_TAG = "CordovaChromeClient";
@@ -101,8 +104,9 @@ public class CordovaChromeClient extends WebChromeClient {
      * @param result
      */
     @Override
-    public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
-        AlertDialog.Builder dlg = new AlertDialog.Builder(this.cordova.getActivity());
+    public boolean onJsAlert(ChromeView view, String url, String message,
+            final ChromeJsResult result) {
+    	AlertDialog.Builder dlg = new AlertDialog.Builder(this.cordova.getActivity());
         dlg.setMessage(message);
         dlg.setTitle("Alert");
         //Don't let alerts break the back button
@@ -145,7 +149,8 @@ public class CordovaChromeClient extends WebChromeClient {
      * @param result
      */
     @Override
-    public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+    public boolean onJsConfirm(ChromeView view, String url, String message,
+            final ChromeJsResult result) {
         AlertDialog.Builder dlg = new AlertDialog.Builder(this.cordova.getActivity());
         dlg.setMessage(message);
         dlg.setTitle("Confirm");
@@ -200,7 +205,8 @@ public class CordovaChromeClient extends WebChromeClient {
      * @param result
      */
     @Override
-    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+    public boolean onJsPrompt(ChromeView view, String url, String message,
+            String defaultValue, JsPromptResult result) {
 
         // Security check to make sure any requests are coming from the page initially
         // loaded in webview and not another loaded in an iframe.

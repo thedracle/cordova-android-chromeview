@@ -301,12 +301,13 @@ public class NativeToJsMessageQueue {
             public void run() {
                 if (!queue.isEmpty()) {
                     online = !online;
-                    webView.setNetworkAvailable(online);
+                    
+                    //webView.setNetworkAvailable(online);
                 }
             }                
         };
         OnlineEventsBridgeMode() {
-            webView.setNetworkAvailable(true);
+            //webView.setNetworkAvailable(true);
         }
         public void onNativeToJsMessageAvailable() {
             cordova.getActivity().runOnUiThread(runnable);

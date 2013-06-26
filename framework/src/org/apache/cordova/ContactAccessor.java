@@ -26,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import us.costan.chrome.ChromeView;
+
 /**
  * This abstract class defines SDK-independent API for communication with
  * Contacts Provider. The actual implementation used by the application depends
@@ -37,7 +39,7 @@ public abstract class ContactAccessor {
 
     protected final String LOG_TAG = "ContactsAccessor";
     protected CordovaInterface mApp;
-    protected WebView mView;
+    protected ChromeView mView;
 
     /**
      * Check to see if the data associated with the key is required to

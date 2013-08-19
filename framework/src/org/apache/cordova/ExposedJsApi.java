@@ -38,7 +38,7 @@ import org.json.JSONException;
         this.jsMessageQueue = jsMessageQueue;
     }
 
-    @JavascriptInterface
+    @ChromeJavascriptInterface
     public String exec(String service, String action, String callbackId, String arguments) throws JSONException {
         // If the arguments weren't received, send a message back to JS.  It will switch bridge modes and try again.  See CB-2666.
         // We send a message meant specifically for this case.  It starts with "@" so no other message can be encoded into the same string.
@@ -59,12 +59,12 @@ import org.json.JSONException;
         }
     }
     
-    @JavascriptInterface
+    @ChromeJavascriptInterface
     public void setNativeToJsBridgeMode(int value) {
         jsMessageQueue.setBridgeMode(value);
     }
     
-    @JavascriptInterface
+    @ChromeJavascriptInterface
     public String retrieveJsMessages() {
         return jsMessageQueue.popAndEncode();
     }

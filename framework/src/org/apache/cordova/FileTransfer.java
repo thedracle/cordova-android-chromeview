@@ -62,7 +62,7 @@ import org.json.JSONObject;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.webkit.CookieManager;
+import us.costan.chrome.ChromeCookieManager;
 
 import com.squareup.okhttp.OkHttpClient;
 
@@ -332,7 +332,7 @@ public class FileTransfer extends CordovaPlugin {
                     conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY);
 
                     // Set the cookies on the response
-                    String cookie = CookieManager.getInstance().getCookie(target);
+                    String cookie = ChromeCookieManager.getInstance().getCookie(target);
                     if (cookie != null) {
                         conn.setRequestProperty("Cookie", cookie);
                     }
@@ -743,7 +743,7 @@ public class FileTransfer extends CordovaPlugin {
                     }
     
                     //Add cookie support
-                    String cookie = CookieManager.getInstance().getCookie(source);
+                    String cookie = ChromeCookieManager.getInstance().getCookie(source);
                     if(cookie != null)
                     {
                         connection.setRequestProperty("cookie", cookie);

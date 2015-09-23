@@ -41,7 +41,7 @@ public class CordovaTest extends
   protected void setUp() throws Exception {
     super.setUp();
     testActivity = this.getActivity();
-    testView = testActivity.findViewById(R.id.cordovaWebView);
+//    testView = testActivity.findViewById(R.id.cordovaWebView);
   }
 
   public void testPreconditions() {

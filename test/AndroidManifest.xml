@@ -265,5 +265,8 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity android:name="org.apache.cordova.CordovaWebView"></activity>
+        
+        
         </application>
 </manifest> 

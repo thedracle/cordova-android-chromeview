@@ -27,9 +27,10 @@ import org.apache.cordova.api.CordovaInterface;
 import org.apache.cordova.api.CordovaPlugin;
 import org.apache.cordova.api.LOG;
 import org.apache.cordova.test.R;
-import org.apache.cordova.test.R.id;
+//import org.apache.cordova.test.R.id;
 import org.apache.cordova.test.R.layout;
 
+import us.costan.chrome.ChromeView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,8 @@ public class CordovaWebViewTestActivity extends Activity implements CordovaInter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ChromeView.initialize(this);
+        
         setContentView(R.layout.main);
 
         cordovaWebView = (CordovaWebView) findViewById(R.id.cordovaWebView);

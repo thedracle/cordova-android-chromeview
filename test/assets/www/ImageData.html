@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="300" height="150" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	ctx.fillStyle="green";
+	ctx.fillRect(10,10,50,50);
+
+	function copy()
+	{
+		var imgData=ctx.getImageData(10,10,50,50);
+		for( var i = 0; i < imgData.data.length; i+= 4)
+		{
+			imgData.data[i+ 1] = 128;
+			imgData.data[i+ 2] = 190;
+		}
+		ctx.putImageData(imgData,10,70);
+	}
+</script>
+
+<button onclick="copy()">copy</button>
+
+</body>
+</html>
